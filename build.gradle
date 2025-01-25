@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '3.4.2'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.myeongsun'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+//보안 적용해서 프로그램 시작(회원가입->로그인->개발프로그램)
+//프로젝트을 작성하고 나중에 보안을 적용(개발프로그램->회원가입->로그인->회원관련 프로그램)
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	implementation 'org.modelmapper:modelmapper:3.2.1'
+	//레이아웃
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//자바로 메일전송 라이브러리(Gmail)
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	//H2데이터베이스
+	runtimeOnly 'com.h2database:h2'
+	//MariaDB데이터베이스
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
